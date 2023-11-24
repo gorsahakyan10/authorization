@@ -1,0 +1,21 @@
+.LoginForm {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+}
+
+.LoginForm .Title {
+   padding: 20px 0;
+}
+
+.LoginForm ul {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+}
+
+.LoginForm {
+
+}
