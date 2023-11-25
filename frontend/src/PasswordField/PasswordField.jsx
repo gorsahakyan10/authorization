@@ -18,7 +18,7 @@ function PasswordField({inputValue,
      err = { err: true, errName: 'minLengthErr' }
   }
   return (
-    <li>
+    <>
         <label htmlFor={inputId}>{inputId}:</label>
         <input
             type="text"
@@ -28,7 +28,7 @@ function PasswordField({inputValue,
             onChange={handler}
         />
         <ErrMessage err={err} />
-    </li>
+    </>
   )
 }
 

@@ -1,9 +1,13 @@
 import React, { useRef, useState } from "react";
 import './LoginForm.css'
+
 import ErrMessage from "../ErrMessage/ErrMessage";
-import sendingUserDataToTheServer from "../functions/sendingUserDataToTheServer";
 import UsernameField from "../UsernameField/UsernameField";
 import PasswordField from "../PasswordField/PasswordField";
+
+import {default as login} from "../functions/sendingUserDataToTheServer";
+import Button from "../Button/Button";
+import Title from "../Title/Title";
 
 function LoginForm({ state, handler, clearInputFields }) {
     const [ err, setErr ] = useState({ err: false, errName: '' })
@@ -12,30 +16,32 @@ function LoginForm({ state, handler, clearInputFields }) {
     const handlerOnSubmit = async (e) => {
         e.preventDefault();
         clearInputFields(LoginForm.name);
-        setErr( await sendingUserDataToTheServer(state, '/login') )
+        setErr( await login(state, '/login') )
         inputRef.current.focus();
      }
 
     return (
         <div className="LoginForm">
-            <div className="Title">
-                <h2>Login</h2>
-            </div>
+            <Title title='Login'/>
             <form onSubmit={ handlerOnSubmit }>
                 <ul>
-                    <UsernameField inputValue={state.username}
-                                   inputId='Username'
-                                   name='username'
-                                   handler={handler}
-                                   inputRef={inputRef}
-                    />
-                    <PasswordField inputValue={state.password}
-                                   inputId='Password'
-                                   name='password'
-                                   handler={handler}
-                    />
                     <li>
-                        <button>Send</button>
+                       <UsernameField inputValue={state.username}
+                                      inputId='Username'
+                                      name='username'
+                                      handler={handler}
+                                      inputRef={inputRef}
+                       />
+                    </li>
+                    <li>
+                       <PasswordField inputValue={state.password}
+                                      inputId='Password'
+                                      name='password'
+                                      handler={handler}
+                       />
+                    </li>
+                    <li>
+                       <Button name='Send'/>
                     </li>
                     <li>
                        <ErrMessage err={ err }/>

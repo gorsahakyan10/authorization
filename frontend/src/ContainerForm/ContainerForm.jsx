@@ -1,17 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import formsInitialStates from "../js-object-data/formsInitialStates";
 
-const formsInitialStates = {
-    LoginForm: {
-        username: "",
-        password: "",
-    },
-    RegistrationForm: {
-        name: "",
-        surname: "",
-        username: "",
-        password: "",
-    },
-};
 
 function ContainerForm({ Form }) {
     const [state, setState] = useState({ ...formsInitialStates[Form.name] });

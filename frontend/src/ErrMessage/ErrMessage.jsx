@@ -1,7 +1,7 @@
 import React from 'react'
 import './ErrMessage.css'
 
-import errUI from '../App/js-object-data/errUI'
+import errUI from '../js-object-data/errUI'
 
 
 function ErrMessage({ err }) {

@@ -1,10 +1,14 @@
 import React, { useRef, useState } from "react";
 import './RegistrationForm.css'
+
 import ErrMessage from "../ErrMessage/ErrMessage";
-import registration from "../functions/registration";
 import TextInput from "../TextInput/TextInput";
 import UsernameField from "../UsernameField/UsernameField";
 import PasswordField from "../PasswordField/PasswordField";
+import Button from "../Button/Button";
+import Title from "../Title/Title";
+
+import registration from "../functions/registration";
 
 function RegistrationForm({ state, handler, clearInputFields }) {
      const [ err, setErr ] = useState({ err: false, errName: '' })
@@ -19,34 +23,40 @@ function RegistrationForm({ state, handler, clearInputFields }) {
 
     return (
         <div className="RegistrationForm">
-            <div className="Title">
-                <h2>Registration</h2>
-            </div>
+            <Title title='Registration'/>
             <form onSubmit={ handlerOnSubmit }>
                 <ul>
-                    <TextInput inputValue={ state.name }
-                               inputId='Name' 
-                               name='name'
-                               handler={handler}
-                               inputRef={inputRef}
-                    />
-                    <TextInput inputValue={ state.surname }
-                               inputId='Surname' 
-                               name='surname'
-                               handler={handler}
-                    />
-                    <UsernameField inputValue={state.username}
-                                   inputId='Username'
-                                   name='username'
-                                   handler={handler}               
-                    />
-                    <PasswordField inputValue={state.password} 
-                                   inputId='Password'
-                                   name='password'
-                                   handler={handler}
-                    />
                     <li>
-                        <button>Send</button>
+                       <TextInput inputValue={ state.name }
+                                  inputId='Name' 
+                                  name='name'
+                                  handler={handler}
+                                  inputRef={inputRef}
+                       />
+                    </li>
+                    <li>
+                       <TextInput inputValue={ state.surname }
+                                  inputId='Surname' 
+                                  name='surname'
+                                  handler={handler}
+                       />
+                    </li>
+                    <li>
+                       <UsernameField inputValue={state.username}
+                                      inputId='Username'
+                                      name='username'
+                                      handler={handler}               
+                       />
+                    </li>
+                    <li>
+                       <PasswordField inputValue={state.password} 
+                                      inputId='Password'
+                                      name='password'
+                                      handler={handler}
+                       />
+                    </li>
+                    <li>
+                       <Button name='Send'/>
                     </li>
                     <li>
                        <ErrMessage err={ err }/>

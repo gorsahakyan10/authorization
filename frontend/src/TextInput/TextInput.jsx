@@ -19,7 +19,7 @@ function TextInput({ inputValue,
     }
 
     return (
-        <li>
+        <>
             <label htmlFor={inputId}>{inputId}:</label>
             <input
                 type="text"
@@ -30,7 +30,7 @@ function TextInput({ inputValue,
                 ref={inputRef}
             />
             <ErrMessage err={err} />
-        </li>
+        </>
     );
 }
 

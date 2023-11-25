@@ -20,7 +20,7 @@ function UsernameField({ inputValue,
   }
 
   return (
-    <li>
+    <>
         <label htmlFor={inputId}>{inputId}:</label>
         <input
             type="text"
@@ -31,7 +31,7 @@ function UsernameField({ inputValue,
             ref={inputRef}
         />
         <ErrMessage err={err} />
-    </li>
+    </>
   )
 }
 
