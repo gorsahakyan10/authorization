@@ -8,28 +8,9 @@ import PasswordField from "../PasswordField/PasswordField";
 import Button from "../Button/Button";
 import Title from "../Title/Title";
 
-import formHoc from "../highOrderComponents/formHoc";
+import formHOC from "../highOrderComponents/formHOC";
 
-function RF({
-    state,
-    handler,
-    handlerOnSubmit,
-    errors,
-    inputRef,
-    showErrors,
-}) {
-    // const [showErrors, setShowErrors] = useState({ value: false });
-    // const [errors, setErrors] = useState([]);
-    // const inputRef = useRef(null);
-
-    // const handlerOnSubmit = async (e) => {
-    //     e.preventDefault();
-    //     setErrors(await registration(state));
-    //     setShowErrors({ value: true });
-    //     onFocus(inputRef.current)
-    // };
-
-    console.log(state)
+function RF({ state, handler, handlerOnSubmit, errors, inputRef, showErrors }) {
     return (
         <div className="RegistrationForm">
             <Title title="Registration" />
@@ -37,7 +18,7 @@ function RF({
                 <ul>
                     <li>
                         <TextInput
-                            inputValue={state.name || ''}
+                            inputValue={state.name}
                             inputId="Name"
                             name="name"
                             handler={handler}
@@ -47,7 +28,7 @@ function RF({
                     </li>
                     <li>
                         <TextInput
-                            inputValue={state.surname || ''}
+                            inputValue={state.surname}
                             inputId="Surname"
                             name="surname"
                             handler={handler}
@@ -56,7 +37,7 @@ function RF({
                     </li>
                     <li>
                         <UsernameField
-                            inputValue={state.username || ''}
+                            inputValue={state.username}
                             inputId="Username"
                             name="username"
                             handler={handler}
@@ -65,7 +46,7 @@ function RF({
                     </li>
                     <li>
                         <PasswordField
-                            inputValue={state.password || ''}
+                            inputValue={state.password}
                             inputId="Password"
                             name="password"
                             handler={handler}
@@ -84,6 +65,6 @@ function RF({
     );
 }
 
-const RegistrationForm = formHoc(RF);
+const RegistrationForm = formHOC(RF);
 
 export default RegistrationForm;

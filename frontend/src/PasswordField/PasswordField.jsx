@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import ErrMessage from "../ErrMessage/ErrMessage";
+import inputHOC from "../highOrderComponents/inputHOC";
 
-import checkingPassword from "../AFunctions/checkingPassword";
-
-function PasswordField({ inputValue, inputId, name, handler, showErrors }) {
-    const [errors, setErrors] = useState([]);
-
-    useEffect(() => {
-        const errors = Array.from(new Set(checkingPassword(inputValue)));
-        setErrors(errors);
-    }, [inputValue, setErrors]);
-
+function PF({ 
+    inputValue, 
+    inputId, 
+    name, 
+    handler,
+    showErrors,
+    errors 
+    }){
     return (
         <>
             <label htmlFor={inputId}>{inputId}:</label>
@@ -26,5 +25,7 @@ function PasswordField({ inputValue, inputId, name, handler, showErrors }) {
         </>
     );
 }
+
+const PasswordField = inputHOC(PF)
 
 export default PasswordField;

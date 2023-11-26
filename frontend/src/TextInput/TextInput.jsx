@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
 import ErrMessage from "../ErrMessage/ErrMessage";
 import checkingFullname from "../AFunctions/checkingFullname";
+import inputHOC from "../highOrderComponents/inputHOC";
 
-function TextInput({
+function TI({
     inputValue,
     inputId,
     name,
     handler,
     inputRef,
     showErrors,
+    errors
 }) {
-    const [errors, setErrors] = useState([]);
-    
-    useEffect(() => {
-        const errors = Array.from(new Set(checkingFullname(inputValue)));
-        setErrors(errors);
-    }, [inputValue, setErrors]);
-
     return (
         <>
             <label htmlFor={inputId}>{inputId}:</label>
@@ -32,5 +27,7 @@ function TextInput({
         </>
     );
 }
+
+const TextInput = inputHOC(TI);
 
 export default TextInput;

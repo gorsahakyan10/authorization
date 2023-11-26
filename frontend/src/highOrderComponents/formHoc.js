@@ -3,12 +3,12 @@ import registration from "../AFunctions/registration";
 import onFocus from "../AFunctions/onFocus";
 import { useRef, useState } from "react";
 
-function formHoc(Form) {
-    const formName = Form.name === "LF" ? "LoginForm" : "RegistrationForm";
+
+function formHOC(Form) {
     const route = Form.name === "LF" ? "/login" : "/registration";
     const action = Form.name === "LF" ? login : registration;
 
-    return function FC(props){
+   return function(props){
         const [showErrors, setShowErrors] = useState({ value: false });
         const [errors, setErrors] = useState([]);
         const inputRef = useRef(null);
@@ -31,4 +31,4 @@ function formHoc(Form) {
     };
 }
 
-export default formHoc;
+export default formHOC;

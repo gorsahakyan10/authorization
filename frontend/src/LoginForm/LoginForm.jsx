@@ -6,29 +6,17 @@ import UsernameField from "../UsernameField/UsernameField";
 import PasswordField from "../PasswordField/PasswordField";
 import Button from "../Button/Button";
 import Title from "../Title/Title";
+import formHOC from "../highOrderComponents/formHOC";
 
-
-import formHoc from "../highOrderComponents/formHoc";
-
-function LF({ 
+function LF({
     state,
     handler,
     handlerOnSubmit,
     errors,
     inputRef,
     showErrors,
+    getErrors,
 }) {
-    // const [showErrors, setShowErrors] = useState({ value: false });
-    // const [errors, setErrors] = useState([]);
-    // const inputRef = useRef(null);
-
-    // const handlerOnSubmit = async (e) => {
-    //     e.preventDefault();
-    //     setErrors(await login(state, "/login"));
-    //     setShowErrors({value: true});
-    //     onFocus(inputRef.current);
-    // };
-
     return (
         <div className="LoginForm">
             <Title title="Login" />
@@ -36,17 +24,17 @@ function LF({
                 <ul>
                     <li>
                         <UsernameField
-                            inputValue={state.username || ''}
+                            inputValue={state.username}
                             inputId="Username"
                             name="username"
                             handler={handler}
                             inputRef={inputRef}
-                            showErrors={ showErrors.value || ''}
+                            showErrors={showErrors.value}
                         />
                     </li>
                     <li>
                         <PasswordField
-                            inputValue={state.password || ''}
+                            inputValue={state.password}
                             inputId="Password"
                             name="password"
                             handler={handler}
@@ -57,7 +45,7 @@ function LF({
                         <Button name="Send" />
                     </li>
                     <li>
-                       <ErrMessage err={errors}/>
+                        <ErrMessage err={errors} />
                     </li>
                 </ul>
             </form>
@@ -65,6 +53,6 @@ function LF({
     );
 }
 
-const LoginForm = formHoc(LF);
+const LoginForm = formHOC(LF);
 
 export default LoginForm;

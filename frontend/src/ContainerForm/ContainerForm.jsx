@@ -3,9 +3,8 @@ import formsInitialStates from "../js-object-data/formsInitialStates";
 
 
 function ContainerForm({ Form }) {
-    console.log(Form.name)
-    const [state, setState] = useState({ ...formsInitialStates[Form.name] });
-
+    const [state, setState] = useState({name: '', surname:'', username:'', password: ''});
+    
     const handler = (e) => {
        setState(previousState => ({
         ...previousState,
