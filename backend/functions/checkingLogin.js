@@ -2,9 +2,9 @@ import React from 'react'
 
 function checkingLogin(users) {
    if(users.length > 0){
-      return JSON.stringify({ err: false, errName: '' }) 
+      return JSON.stringify([]) 
    }
-      return JSON.stringify({ err: true, errName: 'loginErr' })
+      return JSON.stringify(['loginErr'])
 }
 
 export default checkingLogin

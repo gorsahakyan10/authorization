@@ -1,22 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ErrMessage from "../ErrMessage/ErrMessage";
+import checkingFullname from "../AFunctions/checkingFullname";
 
-function TextInput({ inputValue, 
-                     inputId, 
-                     name, 
-                     handler, 
-                     inputRef }) {
-    let err = { err: false, errName: "" };
-    const regExp = /[^a-zA-Z]/g;
-
-    const maxLength = 24;
-
-    if (inputValue.length > maxLength) {
-        err = { err: true, errName: "lengthErr" };
-    }
-    if (inputValue.match(regExp)) {
-        err = { err: true, errName: "symbolErr" };
-    }
+function TextInput({
+    inputValue,
+    inputId,
+    name,
+    handler,
+    inputRef,
+    showErrors,
+}) {
+    const [errors, setErrors] = useState([]);
+    
+    useEffect(() => {
+        const errors = Array.from(new Set(checkingFullname(inputValue)));
+        setErrors(errors);
+    }, [inputValue, setErrors]);
 
     return (
         <>
@@ -29,7 +28,7 @@ function TextInput({ inputValue,
                 onChange={handler}
                 ref={inputRef}
             />
-            <ErrMessage err={err} />
+            {showErrors && <ErrMessage err={errors} />}
         </>
     );
 }

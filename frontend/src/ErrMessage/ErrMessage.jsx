@@ -10,9 +10,8 @@ function ErrMessage({ err }) {
        { err &&
              <div className='ErrMessage'>
                 <ul>
-                   <li>
-                      { errUI[ err.errName ] } 
-                   </li>    
+                   {err.map((errName, i) => 
+                    <li key={i}> { errUI[errName] } </li>)}   
                 </ul>  
              </div>
        }

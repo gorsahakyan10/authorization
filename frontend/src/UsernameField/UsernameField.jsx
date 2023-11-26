@@ -1,38 +1,36 @@
-import React from 'react'
-import ErrMessage from '../ErrMessage/ErrMessage';
+import React, { useEffect, useState } from "react";
+import ErrMessage from "../ErrMessage/ErrMessage";
+import checkingUsername from "../AFunctions/checkingUsername";
 
-function UsernameField({ inputValue,
-                         inputId, 
-                         name, 
-                         handler, 
-                         inputRef }) {
-  let err = { err: false, errName: '' };
+function UsernameField({
+    inputValue,
+    inputId,
+    name,
+    handler,
+    inputRef,
+    showErrors,
+}) {
+    const [errors, setErrors] = useState([]);
+      
+    useEffect(() => {
+        const errors = Array.from(new Set(checkingUsername(inputValue)));
+        setErrors(errors);
+    }, [inputValue, setErrors]);
 
-  const regExp = /[^\d\w_]/;
-  const maxLength = 24;
-   
-  if(err.length > maxLength){
-    err = { err: true, errName: 'lengthErr' }
-  }
-
-  if(inputValue.match(regExp)){
-     err = { err: true, errName: 'usernameErr' }
-  }
-
-  return (
-    <>
-        <label htmlFor={inputId}>{inputId}:</label>
-        <input
-            type="text"
-            name={name}
-            id={inputId}
-            value={inputValue}
-            onChange={handler}
-            ref={inputRef}
-        />
-        <ErrMessage err={err} />
-    </>
-  )
+    return (
+        <>
+            <label htmlFor={inputId}>{inputId}:</label>
+            <input
+                type="text"
+                name={name}
+                id={inputId}
+                value={inputValue}
+                onChange={handler}
+                ref={inputRef}
+            />
+            {showErrors && <ErrMessage err={errors} />}
+        </>
+    );
 }
 
-export default UsernameField
+export default UsernameField;

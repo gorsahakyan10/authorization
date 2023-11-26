@@ -5,7 +5,8 @@ import checkingRegistration from "../functions/checkingRegistration.js";
 const verifcationRouter = express.Router();
 
 verifcationRouter.post("/", (req, res) => {
-    const { username } = req.body;
+    const { username, name } = req.body;
+    console.log(req.body)
     connection.query("USE users");
     connection.query(
         "SELECT * FROM users WHERE username=?",

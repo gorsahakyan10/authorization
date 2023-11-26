@@ -14,7 +14,7 @@ registrationRouter.post("/", (req, res) => {
            if(err){
               throw err
            }else{
-              res.send(JSON.stringify({ err: false, errName:''}))
+              res.send(JSON.stringify([]))
            }
         }
     );

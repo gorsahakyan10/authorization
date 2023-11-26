@@ -1,35 +1,30 @@
-import React from 'react'
-import ErrMessage from '../ErrMessage/ErrMessage';
+import React, { useEffect, useState } from "react";
 
-function PasswordField({inputValue, 
-                        inputId, 
-                        name, 
-                        handler}) {
-  let err = { err: false, errName: '' };
-  
-  const minLength = 8;
-  const regExp = /[\s]/gi;
+import ErrMessage from "../ErrMessage/ErrMessage";
 
-  if(inputValue.match(regExp)){
-     err = { err: true, errName: 'passwordErr' }
-  }
+import checkingPassword from "../AFunctions/checkingPassword";
 
-  if(inputValue !== '' && inputValue.length < minLength){
-     err = { err: true, errName: 'minLengthErr' }
-  }
-  return (
-    <>
-        <label htmlFor={inputId}>{inputId}:</label>
-        <input
-            type="text"
-            name={name}
-            id={inputId}
-            value={inputValue}
-            onChange={handler}
-        />
-        <ErrMessage err={err} />
-    </>
-  )
+function PasswordField({ inputValue, inputId, name, handler, showErrors }) {
+    const [errors, setErrors] = useState([]);
+
+    useEffect(() => {
+        const errors = Array.from(new Set(checkingPassword(inputValue)));
+        setErrors(errors);
+    }, [inputValue, setErrors]);
+
+    return (
+        <>
+            <label htmlFor={inputId}>{inputId}:</label>
+            <input
+                type="text"
+                name={name}
+                id={inputId}
+                value={inputValue}
+                onChange={handler}
+            />
+            {showErrors && <ErrMessage err={errors} />}
+        </>
+    );
 }
 
-export default PasswordField
+export default PasswordField;
