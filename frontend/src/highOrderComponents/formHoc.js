@@ -1,27 +1,27 @@
-import { default as login } from "../AFunctions/sendingUserDataToTheServer";
-import registration from "../AFunctions/registration";
+import {useRef, useState } from "react";
+
+import useRedirect from "../CustomHooks/useRedirect";
+
 import onFocus from "../AFunctions/onFocus";
-import { useRef, useState } from "react";
 
+function formHOC(Form, action, route, initialRoute) {
 
-function formHOC(Form) {
-    const route = Form.name === "LF" ? "/login" : "/registration";
-    const action = Form.name === "LF" ? login : registration;
-
-   return function(props){
-        const [showErrors, setShowErrors] = useState({ value: false });
-        const [errors, setErrors] = useState([]);
+    return function (props) {
+        const [ errors, setErrors ] = useState([]);
         const inputRef = useRef(null);
+
+        const { submitValue, setSubmit } = useRedirect(errors, initialRoute);
+   
 
         const handlerOnSubmit = async (e) => {
             e.preventDefault();
-            setErrors(await action(props.state, route));
-            setShowErrors({ value: true });
+            setErrors( await action(props.state, route) );
+            setSubmit({ value: true });
             onFocus(inputRef.current);
         };
         return (
             <Form
-                showErrors={showErrors}
+                submited={submitValue}
                 inputRef={inputRef}
                 errors={errors}
                 handlerOnSubmit={handlerOnSubmit}

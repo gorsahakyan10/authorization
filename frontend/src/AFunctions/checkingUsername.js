@@ -12,6 +12,10 @@ function checkingUsername(text) {
         errors.push('usernameErr')
     }
 
+    if(text.length === 0) {
+        errors.push('emptyErr')
+     }
+
     return errors
 }
 

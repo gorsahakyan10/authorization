@@ -1,6 +1,9 @@
 import React from "react";
 
 import ErrMessage from "../ErrMessage/ErrMessage";
+
+import checkingPassword from '../AFunctions/checkingPassword';
+
 import inputHOC from "../highOrderComponents/inputHOC";
 
 function PF({ 
@@ -8,7 +11,7 @@ function PF({
     inputId, 
     name, 
     handler,
-    showErrors,
+    submited,
     errors 
     }){
     return (
@@ -21,11 +24,11 @@ function PF({
                 value={inputValue}
                 onChange={handler}
             />
-            {showErrors && <ErrMessage err={errors} />}
+            {submited && <ErrMessage err={errors} />}
         </>
     );
 }
 
-const PasswordField = inputHOC(PF)
+const PasswordField = inputHOC(PF, checkingPassword)
 
 export default PasswordField;

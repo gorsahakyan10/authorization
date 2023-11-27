@@ -11,6 +11,10 @@ function checkingFullname(text) {
        errors.push('symbolErr'); 
     }
 
+    if(text.length === 0) {
+       errors.push('emptyErr')
+    }
+
     return errors
 }
 

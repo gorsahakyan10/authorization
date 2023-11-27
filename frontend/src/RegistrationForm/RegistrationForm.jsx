@@ -1,16 +1,17 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import "./RegistrationForm.css";
 
 import ErrMessage from "../ErrMessage/ErrMessage";
 import TextInput from "../TextInput/TextInput";
 import UsernameField from "../UsernameField/UsernameField";
 import PasswordField from "../PasswordField/PasswordField";
-import Button from "../Button/Button";
 import Title from "../Title/Title";
+
+import registration from "../AFunctions/registration";
 
 import formHOC from "../highOrderComponents/formHOC";
 
-function RF({ state, handler, handlerOnSubmit, errors, inputRef, showErrors }) {
+function RF({ state, handler, handlerOnSubmit, errors, inputRef, submited }) {
     return (
         <div className="RegistrationForm">
             <Title title="Registration" />
@@ -23,7 +24,7 @@ function RF({ state, handler, handlerOnSubmit, errors, inputRef, showErrors }) {
                             name="name"
                             handler={handler}
                             inputRef={inputRef}
-                            showErrors={showErrors.value}
+                            submited={submited}
                         />
                     </li>
                     <li>
@@ -32,7 +33,7 @@ function RF({ state, handler, handlerOnSubmit, errors, inputRef, showErrors }) {
                             inputId="Surname"
                             name="surname"
                             handler={handler}
-                            showErrors={showErrors.value}
+                            submited={submited}
                         />
                     </li>
                     <li>
@@ -41,7 +42,7 @@ function RF({ state, handler, handlerOnSubmit, errors, inputRef, showErrors }) {
                             inputId="Username"
                             name="username"
                             handler={handler}
-                            showErrors={showErrors.value}
+                            submited={submited}
                         />
                     </li>
                     <li>
@@ -50,11 +51,11 @@ function RF({ state, handler, handlerOnSubmit, errors, inputRef, showErrors }) {
                             inputId="Password"
                             name="password"
                             handler={handler}
-                            showErrors={showErrors.value}
+                            submited={submited}
                         />
                     </li>
                     <li>
-                        <Button name="Send" />
+                        <button onClick={handlerOnSubmit}>Registration</button>
                     </li>
                     <li>
                         <ErrMessage err={errors} />
@@ -65,6 +66,11 @@ function RF({ state, handler, handlerOnSubmit, errors, inputRef, showErrors }) {
     );
 }
 
-const RegistrationForm = formHOC(RF);
+const RegistrationForm = formHOC(
+    RF,
+    registration,
+    "/registration",
+    "/registration"
+);
 
 export default RegistrationForm;

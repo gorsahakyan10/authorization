@@ -11,6 +11,10 @@ function checkingPassword(text) {
        errors.push('minLengthErr');
     }
 
+    if(text.length === 0) {
+      errors.push('emptyErr')
+    }
+
      return errors
 }
 

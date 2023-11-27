@@ -2,6 +2,8 @@ import React from "react";
 
 import ErrMessage from "../ErrMessage/ErrMessage";
 
+import checkingUsername from '../AFunctions/checkingUsername';
+
 import inputHOC from "../highOrderComponents/inputHOC";
 
 function UF({
@@ -10,7 +12,7 @@ function UF({
     name,
     handler,
     inputRef,
-    showErrors,
+    submited,
     errors
 }) {
     return (
@@ -24,11 +26,11 @@ function UF({
                 onChange={handler}
                 ref={inputRef}
             />
-            {showErrors && <ErrMessage err={errors} />}
+            {submited && <ErrMessage err={errors} />}
         </>
     );
 }
 
-const UsernameField = inputHOC(UF);
+const UsernameField = inputHOC(UF, checkingUsername);
 
 export default UsernameField;

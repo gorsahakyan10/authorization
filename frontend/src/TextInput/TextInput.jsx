@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
+
 import ErrMessage from "../ErrMessage/ErrMessage";
-import checkingFullname from "../AFunctions/checkingFullname";
+
+import checkingFullname from '../AFunctions/checkingFullname';
+
 import inputHOC from "../highOrderComponents/inputHOC";
+
+
 
 function TI({
     inputValue,
@@ -9,7 +14,7 @@ function TI({
     name,
     handler,
     inputRef,
-    showErrors,
+    submited,
     errors
 }) {
     return (
@@ -23,11 +28,11 @@ function TI({
                 onChange={handler}
                 ref={inputRef}
             />
-            {showErrors && <ErrMessage err={errors} />}
+            {submited && <ErrMessage err={errors} />}
         </>
     );
 }
 
-const TextInput = inputHOC(TI);
+const TextInput = inputHOC(TI, checkingFullname);
 
 export default TextInput;

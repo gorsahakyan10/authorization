@@ -4,23 +4,17 @@ import "./LoginForm.css";
 import ErrMessage from "../ErrMessage/ErrMessage";
 import UsernameField from "../UsernameField/UsernameField";
 import PasswordField from "../PasswordField/PasswordField";
-import Button from "../Button/Button";
 import Title from "../Title/Title";
 import formHOC from "../highOrderComponents/formHOC";
+import CustomLink from "../CustomLink/CustomLink";
 
-function LF({
-    state,
-    handler,
-    handlerOnSubmit,
-    errors,
-    inputRef,
-    showErrors,
-    getErrors,
-}) {
+import { default as login } from "../AFunctions/sendingUserDataToTheServer";
+
+function LF({ state, handler, handlerOnSubmit, errors, inputRef, submited }) {
     return (
         <div className="LoginForm">
             <Title title="Login" />
-            <form onSubmit={handlerOnSubmit}>
+            <form>
                 <ul>
                     <li>
                         <UsernameField
@@ -29,7 +23,7 @@ function LF({
                             name="username"
                             handler={handler}
                             inputRef={inputRef}
-                            showErrors={showErrors.value}
+                            submited={submited}
                         />
                     </li>
                     <li>
@@ -38,11 +32,14 @@ function LF({
                             inputId="Password"
                             name="password"
                             handler={handler}
-                            showErrors={showErrors.value}
+                            submited={submited}
                         />
                     </li>
                     <li>
-                        <Button name="Send" />
+                        <button onClick={handlerOnSubmit}>Login</button>
+                    </li>
+                    <li>
+                        <CustomLink path={`/registration`} name="Register" />
                     </li>
                     <li>
                         <ErrMessage err={errors} />
@@ -53,6 +50,6 @@ function LF({
     );
 }
 
-const LoginForm = formHOC(LF);
+const LoginForm = formHOC(LF, login, "/login", "/");
 
 export default LoginForm;
