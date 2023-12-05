@@ -4,6 +4,7 @@ import mysql from 'mysql2'
 import registrationRouter from './routes/registrationRouter.js';
 import verifcationRouter from './routes/verifcationRouter.js';
 import loginRouter from './routes/loginRouter.js';
+import userRouter from './routes/userRouter.js';
 
 const connection = mysql.createConnection({
    port: 3306,
@@ -36,6 +37,8 @@ app.use('/login', loginRouter)
 app.use('/verification', verifcationRouter)
 
 app.use('/registration', registrationRouter)
+
+app.use('/user', userRouter)
 
 app.listen(PORT, () => {
    console.log('server works...')

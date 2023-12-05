@@ -1,22 +1,18 @@
-import React from 'react'
-import './ErrMessage.css'
+import React from "react";
+import "./ErrMessage.css";
 
-import errUI from '../js-object-data/errUI'
+import { errUI } from "./data";
 
-
-function ErrMessage({ err }) {
-  return (
-    <>
-       { err &&
-             <div className='ErrMessage'>
-                <ul>
-                   {err.map((errName, i) => 
-                    <li key={i}> { errUI[errName] } </li>)}   
-                </ul>  
-             </div>
-       }
-    </>
-  )
+function ErrMessage({ errors }) {
+    return (
+        <div className="ErrMessage">
+            <ul>
+                {(errors || []).map((errorName, i) => 
+                    <li key={i + `${Math.random()}`}> {errUI[errorName]} </li>
+                )}
+            </ul>
+        </div>
+    );
 }
 
-export default ErrMessage
+export default ErrMessage;

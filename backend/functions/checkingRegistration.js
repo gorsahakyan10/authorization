@@ -2,9 +2,9 @@ import React from 'react'
 
 function checkingRegistration(users) {
    if(users.length > 0){
-     return JSON.stringify({ err: true, errName: 'registrationErr' })
+     return JSON.stringify(['verificationErr'])
    }
-     return JSON.stringify({ err: false, errName: '' })
+     return JSON.stringify([])
 }    
 
 export default checkingRegistration

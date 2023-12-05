@@ -1,17 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext } from "react";
+import { ErrorContext } from "../AbstractForm/AbstractForm";
 
-function inputHOC(Input, checkingFunc) {
+function inputHOC(InputComponent, checkingFunc, name) {
+    return function (props) {
+        const { errors, setErrors } = useContext(ErrorContext);
 
-  return function(props) {
-    const [ errors, setErrors ] = useState([]); 
+        function handlerOnChange(e) {
+            const { value } = e.target;
+            const errors = checkingFunc(value);
+            setErrors(errors, name);
+            props.onChange(e);
+        }
 
-    useEffect(() => {
-      const errors = checkingFunc(props.inputValue); 
-      setErrors(errors);
-    }, [ props.inputValue ]);
-
-    return <Input errors={errors} { ...props }/>
-  }
+        return (
+            <InputComponent
+                handlerOnChange={handlerOnChange}
+                errors={errors}
+                {...props}
+            />
+        );
+    };
 }
 
-export default inputHOC
+export default inputHOC;

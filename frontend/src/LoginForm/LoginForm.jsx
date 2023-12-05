@@ -1,55 +1,66 @@
-import React, { useRef, useState } from "react";
-import "./LoginForm.css";
+import React, { useEffect, useRef, useState, useContext } from "react";
+import useRedirect from "./customHooks/useRedirect";
 
-import ErrMessage from "../ErrMessage/ErrMessage";
-import UsernameField from "../UsernameField/UsernameField";
-import PasswordField from "../PasswordField/PasswordField";
-import Title from "../Title/Title";
-import formHOC from "../highOrderComponents/formHOC";
-import CustomLink from "../CustomLink/CustomLink";
+import { getAuthorizedUser } from "./service-functions";
 
-import { default as login } from "../AFunctions/sendingUserDataToTheServer";
+import { UserContext } from "../App";
 
-function LF({ state, handler, handlerOnSubmit, errors, inputRef, submited }) {
+import ErrMessage from "../ErrMessage";
+import UsernameInput from "../UsernameInput";
+import PasswordInput from "../PasswordInput";
+import Title from "../Title";
+
+function LoginForm({ state }) {
+    const [submited, setSubmited] = useState({
+        defaultValue: false,
+        value: false,
+    });
+    const { setAuthorizedUser } = useContext(UserContext);
+    const userRef = useRef({});
+    useRedirect(userRef.current, submited);
+
+    if (submited.defaultValue === true) {
+        setSubmited({ defaultValue: false, value: true });
+    }
+
+    async function handlerOnSubmit(e) {
+        e.preventDefault();
+        const user = await getAuthorizedUser(state.formData);
+        userRef.current = user;
+        setSubmited({ defaultValue: true, value: true });
+        setAuthorizedUser(user);
+    }
+
     return (
-        <div className="LoginForm">
+        <form className="LoginForm" onSubmit={handlerOnSubmit}>
             <Title title="Login" />
-            <form>
-                <ul>
-                    <li>
-                        <UsernameField
-                            inputValue={state.username}
-                            inputId="Username"
-                            name="username"
-                            handler={handler}
-                            inputRef={inputRef}
-                            submited={submited}
-                        />
-                    </li>
-                    <li>
-                        <PasswordField
-                            inputValue={state.password}
-                            inputId="Password"
-                            name="password"
-                            handler={handler}
-                            submited={submited}
-                        />
-                    </li>
-                    <li>
-                        <button onClick={handlerOnSubmit}>Login</button>
-                    </li>
-                    <li>
-                        <CustomLink path={`/registration`} name="Register" />
-                    </li>
-                    <li>
-                        <ErrMessage err={errors} />
-                    </li>
-                </ul>
-            </form>
-        </div>
+            <ul>
+                <li>
+                    <UsernameInput
+                        onChange={state.handlerOnChange}
+                        value={state.formData["username"]}
+                        submited={submited}
+                    />
+                </li>
+                <li>
+                    <PasswordInput
+                        onChange={state.handlerOnChange}
+                        value={state.formData["password"]}
+                        submited={submited}
+                    />
+                </li>
+                <li>
+                    <button type="submit">Send</button>
+                </li>
+                <li>
+                    {userRef.current.id === undefined &&
+                        submited.value === true && (
+                            <ErrMessage errors={["loginErr"]} />
+                        )}
+                </li>
+            </ul>
+        </form>
     );
 }
-
-const LoginForm = formHOC(LF, login, "/login", "/");
 
 export default LoginForm;

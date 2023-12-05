@@ -1,76 +1,83 @@
-import React from "react";
-import "./RegistrationForm.css";
+import React, { useContext, useRef, useState } from "react";
+import UsernameInput from "../UsernameInput";
+import PasswordInput from "../PasswordInput";
+import NameInput from "../NameInput";
+import SurnameInput from "../SurnameInput";
+import { UserContext } from "../App";
+import ErrMessage from "../ErrMessage";
+import getAuthorizedUser from './getAuthorizedUser';
+import useRedirect from "./customHooks/useRedirect";
+import { ErrorContext } from "../AbstractForm/AbstractForm";
 
-import ErrMessage from "../ErrMessage/ErrMessage";
-import TextInput from "../TextInput/TextInput";
-import UsernameField from "../UsernameField/UsernameField";
-import PasswordField from "../PasswordField/PasswordField";
-import Title from "../Title/Title";
+function RegistrationForm({ state }) {
+  const { errors } = useContext(ErrorContext);
 
-import registration from "../AFunctions/registration";
+    const [submited, setSubmited] = useState({
+        defaultValue: false,
+        value: false,
+    });
 
-import formHOC from "../highOrderComponents/formHOC";
+    const { setAuthorizedUser } = useContext(UserContext);
 
-function RF({ state, handler, handlerOnSubmit, errors, inputRef, submited }) {
+    const userRef = useRef({});
+
+    useRedirect(userRef.current, submited);
+
+    if (submited.defaultValue === true) {
+        setSubmited({ defaultValue: false, value: true });
+    }
+
+    async function handlerOnSubmit(e) {
+        e.preventDefault();
+        if(errors.length > 0) { return };
+        const user = await getAuthorizedUser(state.formData);
+        userRef.current = user;
+        setSubmited({ defaultValue: true, value: true });
+        setAuthorizedUser(user);
+    }
     return (
-        <div className="RegistrationForm">
-            <Title title="Registration" />
-            <form onSubmit={handlerOnSubmit}>
-                <ul>
-                    <li>
-                        <TextInput
-                            inputValue={state.name}
-                            inputId="Name"
-                            name="name"
-                            handler={handler}
-                            inputRef={inputRef}
-                            submited={submited}
-                        />
-                    </li>
-                    <li>
-                        <TextInput
-                            inputValue={state.surname}
-                            inputId="Surname"
-                            name="surname"
-                            handler={handler}
-                            submited={submited}
-                        />
-                    </li>
-                    <li>
-                        <UsernameField
-                            inputValue={state.username}
-                            inputId="Username"
-                            name="username"
-                            handler={handler}
-                            submited={submited}
-                        />
-                    </li>
-                    <li>
-                        <PasswordField
-                            inputValue={state.password}
-                            inputId="Password"
-                            name="password"
-                            handler={handler}
-                            submited={submited}
-                        />
-                    </li>
-                    <li>
-                        <button onClick={handlerOnSubmit}>Registration</button>
-                    </li>
-                    <li>
-                        <ErrMessage err={errors} />
-                    </li>
-                </ul>
-            </form>
-        </div>
+        <form onSubmit={handlerOnSubmit}>
+            <ul>
+                <li>
+                    <NameInput
+                        onChange={state.handlerOnChange}
+                        value={state.formData["name"]}
+                        submited={submited}
+                    />
+                </li>
+                <li>
+                    <SurnameInput
+                        onChange={state.handlerOnChange}
+                        value={state.formData["surname"]}
+                        submited={submited}
+                    />
+                </li>
+                <li>
+                    <UsernameInput
+                        onChange={state.handlerOnChange}
+                        value={state.formData["username"]}
+                        submited={submited}
+                    />
+                </li>
+                <li>
+                    <PasswordInput
+                        onChange={state.handlerOnChange}
+                        value={state.formData["password"]}
+                        submited={submited}
+                    />
+                </li>
+                <li>
+                    <button type="submit">Send</button>
+                </li>
+                <li>
+                    {(userRef.current.id === undefined &&
+                        submited.value === true) && 
+                            <ErrMessage errors={["registrationErr"]} />
+                        }
+                </li>
+            </ul>
+        </form>
     );
 }
-
-const RegistrationForm = formHOC(
-    RF,
-    registration,
-    "/registration",
-    "/registration"
-);
 
 export default RegistrationForm;
