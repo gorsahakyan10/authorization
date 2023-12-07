@@ -6,14 +6,13 @@ function useRedirect(user = { id: undefined }, submited) {
     const { id } = user;
 
     if(submited.defaultValue === false) {
-       return 
+      return 
     }
 
     if(id === undefined){
-       navigate('/registration');
-    }else{
-       navigate(`/user/${id}`)
+      return
     }
+      navigate(`/user/${id}`);          
 }
 
 export default useRedirect

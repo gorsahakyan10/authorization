@@ -6,7 +6,6 @@ function registration(userData) {
   const registrationPath = '/registration'
   return new Promise(async (resolve) => {
     const errors = await verification({ ...userData }, verifcationPath)
-    console.log(errors,999)
     if(errors.length === 0){
        resolve(await register({ ...userData }, registrationPath))
     }

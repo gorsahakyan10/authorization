@@ -10,7 +10,7 @@ loginRouter.post("/", (req, res) => {
         "SELECT * FROM users WHERE username=? AND password=?",
         [username, password],
         (err, users) => {
-            if (err) {
+            if (err){
                 console.log(err);
             } else {
                 res.send(JSON.stringify(users[0] || {}));

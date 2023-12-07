@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import ErrMessage from "../ErrMessage";
 import inputHOC from "../highOrderComponents/inputHOC";
 import checkingPassword from "./checkingPassword";
+import { LanguageContext } from "../App";
 
-function PI({ handlerOnChange, errors, value, submited }) {  
+function PI({ handlerOnChange, errors, value, submited }) {
+    const { t } = useContext(LanguageContext);
     return (
         <>
-            <label htmlFor="Password">Password:</label>
+            <label htmlFor="Password">{t('Password')}:</label>
             <input
                 type="password"
                 name="password"

@@ -10,10 +10,10 @@ userRouter.post("/", (req, res) => {
         "SELECT * FROM users WHERE id=? OR username=?",
         [id, username],
         (err, users) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send(JSON.stringify(users[0]));
+            if(err){
+               console.log(err);
+            }else{
+               res.send(JSON.stringify(users[0] || {}));
             }
         }
     );

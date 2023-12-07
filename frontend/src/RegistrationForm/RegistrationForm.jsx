@@ -1,42 +1,55 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
+
+import useRedirect from "../useRedirect";
+
+import { ErrorContext } from "../AbstractForm/AbstractForm";
+import { UserContext } from "../App";
+import { LanguageContext } from "../App";
+
+import getAuthorizedUser from "./getAuthorizedUser";
+import objectToArray from "./objectToArray";
+
+import { Link } from "react-router-dom";
+
+import Title from "../Title";
 import UsernameInput from "../UsernameInput";
 import PasswordInput from "../PasswordInput";
 import NameInput from "../NameInput";
 import SurnameInput from "../SurnameInput";
-import { UserContext } from "../App";
 import ErrMessage from "../ErrMessage";
-import getAuthorizedUser from './getAuthorizedUser';
-import useRedirect from "./customHooks/useRedirect";
-import { ErrorContext } from "../AbstractForm/AbstractForm";
 
 function RegistrationForm({ state }) {
-  const { errors } = useContext(ErrorContext);
+    const { t } = useContext(LanguageContext);
+    const { errors } = useContext(ErrorContext);
+    const {authorizedUser, setAuthorizedUser } = useContext(UserContext);
 
     const [submited, setSubmited] = useState({
         defaultValue: false,
         value: false,
     });
 
-    const { setAuthorizedUser } = useContext(UserContext);
-
-    const userRef = useRef({});
-
-    useRedirect(userRef.current, submited);
+    useRedirect(authorizedUser, submited);
 
     if (submited.defaultValue === true) {
         setSubmited({ defaultValue: false, value: true });
     }
 
     async function handlerOnSubmit(e) {
-        e.preventDefault();
-        if(errors.length > 0) { return };
-        const user = await getAuthorizedUser(state.formData);
-        userRef.current = user;
-        setSubmited({ defaultValue: true, value: true });
-        setAuthorizedUser(user);
+        e.preventDefault(); 
+
+        if (objectToArray(errors).length > 0) {
+            setSubmited({ defaultValue: true, value: true });
+            return;
+        }
+
+        const authorizedUser = await getAuthorizedUser({...state.formData});
+
+        setSubmited({defaultValue: true, value: true});
+        setAuthorizedUser(authorizedUser);
     }
     return (
         <form onSubmit={handlerOnSubmit}>
+            <Title title={t('Registration')} />
             <ul>
                 <li>
                     <NameInput
@@ -67,13 +80,15 @@ function RegistrationForm({ state }) {
                     />
                 </li>
                 <li>
-                    <button type="submit">Send</button>
+                    <button type="submit">{t('Register')}</button>
                 </li>
                 <li>
-                    {(userRef.current.id === undefined &&
-                        submited.value === true) && 
-                            <ErrMessage errors={["registrationErr"]} />
-                        }
+                    <Link to='/login'></Link>
+                </li>
+                <li>
+                    {authorizedUser.alreadyExist && (
+                            <ErrMessage errors={["registrationErr"]}/>
+                        )}
                 </li>
             </ul>
         </form>

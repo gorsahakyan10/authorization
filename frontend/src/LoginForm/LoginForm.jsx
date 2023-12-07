@@ -1,9 +1,12 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
-import useRedirect from "./customHooks/useRedirect";
+import React, {useState, useContext } from "react";
+
+import useRedirect from "../useRedirect";
 
 import { getAuthorizedUser } from "./service-functions";
 
-import { UserContext } from "../App";
+import { LanguageContext, UserContext } from "../App";
+
+import { Link } from "react-router-dom";
 
 import ErrMessage from "../ErrMessage";
 import UsernameInput from "../UsernameInput";
@@ -11,29 +14,31 @@ import PasswordInput from "../PasswordInput";
 import Title from "../Title";
 
 function LoginForm({ state }) {
+    const { t } = useContext(LanguageContext)
+    const { authorizedUser, setAuthorizedUser } = useContext(UserContext); 
+
     const [submited, setSubmited] = useState({
         defaultValue: false,
         value: false,
     });
-    const { setAuthorizedUser } = useContext(UserContext);
-    const userRef = useRef({});
-    useRedirect(userRef.current, submited);
+    
+    useRedirect(authorizedUser, submited);
 
-    if (submited.defaultValue === true) {
+    if(submited.defaultValue === true){
         setSubmited({ defaultValue: false, value: true });
+        return
     }
 
     async function handlerOnSubmit(e) {
         e.preventDefault();
-        const user = await getAuthorizedUser(state.formData);
-        userRef.current = user;
+        const authorizedUser = await getAuthorizedUser(state.formData);
         setSubmited({ defaultValue: true, value: true });
-        setAuthorizedUser(user);
+        setAuthorizedUser(authorizedUser);
     }
 
     return (
         <form className="LoginForm" onSubmit={handlerOnSubmit}>
-            <Title title="Login" />
+            <Title title={t('Login')} />
             <ul>
                 <li>
                     <UsernameInput
@@ -50,11 +55,14 @@ function LoginForm({ state }) {
                     />
                 </li>
                 <li>
-                    <button type="submit">Send</button>
+                    <button type="submit">{t('Login')}</button>
                 </li>
                 <li>
-                    {userRef.current.id === undefined &&
-                        submited.value === true && (
+                    <Link to={'/registration'}><button>{t('Register')}</button></Link>
+                </li>
+                <li>
+                    {authorizedUser.id === undefined &&
+                     submited.value === true && (
                             <ErrMessage errors={["loginErr"]} />
                         )}
                 </li>

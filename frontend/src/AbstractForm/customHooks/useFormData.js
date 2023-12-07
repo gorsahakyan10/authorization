@@ -3,7 +3,6 @@ import { useState } from "react";
 
 function useFormData(initialState) {
     const [ formData, setFormData ] = useState(initialState);
-    console.log(formData)
 
     function handlerOnChange(e){
       const { name, value } = e.target;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-import Form from "./AbstractForm";
+
 import AbstractForm from "./AbstractForm";
 import LoginForm from "./LoginForm";
 import { loginInitialState, registrationInitialState } from "./AbstractForm/data";
@@ -9,16 +9,21 @@ import { Routes, Route } from "react-router";
 import UserProfile from "./UserProfile";
 import RegistrationForm from "./RegistrationForm";
 
+import { useTranslation } from "react-i18next";
+
 export const UserContext = React.createContext('default'); 
+export const LanguageContext = React.createContext('default');
 
 function App() {
   const [ authorizedUser, setAuthorizedUser ] = useState({});
-  const id = authorizedUser.id || '';
+  
+  const { t, i18n } = useTranslation();
 
     return (
         <div className="App">
           <BrowserRouter>
-            <UserContext.Provider value={{setAuthorizedUser}}>
+            <UserContext.Provider value={{authorizedUser, setAuthorizedUser}}>
+            <LanguageContext.Provider value={{t, i18n}}>
                 <Routes>
                     <Route
                         path="/login"
@@ -40,6 +45,7 @@ function App() {
                     />
                     <Route path={`/user/:id`} element={<UserProfile user={authorizedUser}/>} />
                 </Routes>
+            </LanguageContext.Provider>
             </UserContext.Provider>  
           </BrowserRouter>
         </div>

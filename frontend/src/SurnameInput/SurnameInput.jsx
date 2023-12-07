@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import ErrMessage from "../ErrMessage";
 import inputHOC from "../highOrderComponents/inputHOC";
 import checkingFullname from "./checkingFullname";
+import { LanguageContext } from "../App";
 
 function SI({ handlerOnChange, errors, value, submited }) {
+    const { t } = useContext(LanguageContext);
     return (
         <>
-            <label htmlFor="Surname">Surname:</label>
+            <label htmlFor="Surname">{t('Surname')}:</label>
             <input
                 type="text"
                 name="surname"

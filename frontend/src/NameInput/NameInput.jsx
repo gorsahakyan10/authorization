@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import ErrMessage from "../ErrMessage";
 
 import inputHOC from "../highOrderComponents/inputHOC";
 
 import checkingFullname from "./checkingFullname";
+import { LanguageContext } from "../App";
 
 function NI({ handlerOnChange, errors, value, submited }) {
+    const { t } = useContext(LanguageContext);
     return (
         <>
-            <label htmlFor="Name">Name:</label>
+            <label htmlFor="Name">{t('Name')}:</label>
             <input
                 type="text"
                 name="name"

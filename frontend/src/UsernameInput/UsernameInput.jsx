@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
+
+import { LanguageContext } from "../App";
 
 import ErrMessage from "../ErrMessage";
+
 import inputHOC from "../highOrderComponents/inputHOC";
+
 import checkingUsername from "./checkingUsername";
-;
 
 function UI({ handlerOnChange, errors, value, submited }) {
+    const { t } = useContext(LanguageContext);
     return (
         <>
-            <label htmlFor="Username">Username:</label>
+            <label htmlFor="Username">{t('Username')}:</label>
             <input
                 type="text"
                 name="username"

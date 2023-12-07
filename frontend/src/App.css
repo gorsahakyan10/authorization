@@ -4,7 +4,8 @@
 
 label {
   float: left;
-  width: 90px;
+  width: fit-content;
+  margin: 0px 5px;
 }
 
 form {
@@ -32,3 +33,8 @@ li {
   list-style: none;
 }
 
+button{
+   padding: 5px;
+   font-weight: bold;
+   cursor: pointer;
+}
