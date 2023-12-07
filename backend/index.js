@@ -5,6 +5,7 @@ import registrationRouter from './routes/registrationRouter.js';
 import verifcationRouter from './routes/verifcationRouter.js';
 import loginRouter from './routes/loginRouter.js';
 import userRouter from './routes/userRouter.js';
+import uploadRouter from './routes/uploadRouter.js';
 
 const connection = mysql.createConnection({
    port: 3306,
@@ -26,6 +27,14 @@ const app = express();
 
 app.use((req, res, next) => {
    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+   next();
+})
+
+app.use('/public', express.static('public'))
+
+app.use('/upload', uploadRouter)
+
+app.use((req, res, next) => {
    req.headers['content-type'] = 'application/json';
    next();
 })

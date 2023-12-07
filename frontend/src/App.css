@@ -38,3 +38,8 @@ button{
    font-weight: bold;
    cursor: pointer;
 }
+
+img{
+   width: 250px;
+   height: 250px;
+}

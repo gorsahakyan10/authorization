@@ -10,11 +10,14 @@ function UserProfile(props) {
   const { currentUser } = useGetCurrentUser({...props.user}, id);
 
   return (
+
     <div>
+      {console.log(currentUser.imageURL)}
         <h2>id: {currentUser.id}</h2>
         <h2>{t('Name')}: {currentUser.name}</h2>
         <h2>{t('Surname')}: {currentUser.surname}</h2>
         <h2>{t('Username')}: {currentUser.username}</h2>
+        <img src={currentUser.imageURL}/>
     </div>
   )
 }

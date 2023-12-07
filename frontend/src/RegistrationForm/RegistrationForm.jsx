@@ -21,7 +21,7 @@ import ErrMessage from "../ErrMessage";
 function RegistrationForm({ state }) {
     const { t } = useContext(LanguageContext);
     const { errors } = useContext(ErrorContext);
-    const {authorizedUser, setAuthorizedUser } = useContext(UserContext);
+    const { authorizedUser, setAuthorizedUser } = useContext(UserContext);
 
     const [submited, setSubmited] = useState({
         defaultValue: false,
@@ -35,21 +35,21 @@ function RegistrationForm({ state }) {
     }
 
     async function handlerOnSubmit(e) {
-        e.preventDefault(); 
+        e.preventDefault();
 
         if (objectToArray(errors).length > 0) {
             setSubmited({ defaultValue: true, value: true });
             return;
         }
 
-        const authorizedUser = await getAuthorizedUser({...state.formData});
+        const authorizedUser = await getAuthorizedUser({ ...state.formData });
 
-        setSubmited({defaultValue: true, value: true});
+        setSubmited({ defaultValue: true, value: true });
         setAuthorizedUser(authorizedUser);
     }
     return (
-        <form onSubmit={handlerOnSubmit}>
-            <Title title={t('Registration')} />
+        <form onSubmit={handlerOnSubmit} encType="multipart/form-data">
+            <Title title={t("Registration")} />
             <ul>
                 <li>
                     <NameInput
@@ -80,15 +80,30 @@ function RegistrationForm({ state }) {
                     />
                 </li>
                 <li>
-                    <button type="submit">{t('Register')}</button>
+                    <input
+                        type="file"
+                        name="avatar"
+                        //accept="image/png, image/jpeg"
+                        onChange={async (e) => {
+                            const formData = new FormData();
+                            formData.append("image", e.target.files[0]);
+                            fetch("http://localhost:8000/upload", {
+                                method: "POST",
+                                body: formData,
+                            });
+                        }}
+                    />
                 </li>
                 <li>
-                    <Link to='/login'></Link>
+                    <button type="submit">{t("Register")}</button>
+                </li>
+                <li>
+                    <Link to="/login"></Link>
                 </li>
                 <li>
                     {authorizedUser.alreadyExist && (
-                            <ErrMessage errors={["registrationErr"]}/>
-                        )}
+                        <ErrMessage errors={["registrationErr"]} />
+                    )}
                 </li>
             </ul>
         </form>

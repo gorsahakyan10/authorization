@@ -26,14 +26,14 @@ const resources = {
          }
    },
    'AM':{
-    translation:{
-       'Registration': 'Գրանցում',
-       'Login': 'Մուտք',
-       'Name': 'Անուն',
-       'Surname': 'Ազգանուն',
-       'Username': 'Օգտատիրոջ Անուն',
-       'Password': 'Գաղտնաբառ',
-       'Register': 'Գրանցվել',
+         translation:{
+            'Registration': 'Գրանցում',
+            'Login': 'Մուտք',
+            'Name': 'Անուն',
+            'Surname': 'Ազգանուն',
+            'Username': 'Օգտատիրոջ Անուն',
+            'Password': 'Գաղտնաբառ',
+            'Register': 'Գրանցվել',
     }
 },
    

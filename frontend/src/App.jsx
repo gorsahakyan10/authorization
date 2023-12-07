@@ -6,7 +6,7 @@ import LoginForm from "./LoginForm";
 import { loginInitialState, registrationInitialState } from "./AbstractForm/data";
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router";
-import UserProfile from "./UserProfile";
+import UserProfile from "./UserProfile/UserProfile";
 import RegistrationForm from "./RegistrationForm";
 
 import { useTranslation } from "react-i18next";
